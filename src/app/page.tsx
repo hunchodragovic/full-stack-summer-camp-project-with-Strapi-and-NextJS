@@ -1,34 +1,23 @@
 import React from "react";
 import "../sass/main.scss";
-
+import { getHomePage } from "@/data/loaders";
+import { notFound } from "next/navigation";
+import { HeroSection } from "@/components/blocks/HeroSection";
 async function loader() {
-  try {
-    const path = "/api/home-page";
-    const BASE_URL = "http://127.0.0.1:1337"; // safer than localhost
-    const url = new URL(path, BASE_URL);
+  const data = await getHomePage();
+  if (!data) notFound();
+  console.log("data", data);
 
-    const response = await fetch(url.href);
-
-    if (!response.ok) {
-      throw new Error(`Fetch failed with status ${response.status}`);
-    }
-
-    const data = await response.json();
-    console.log(data);
-    return { ...data };
-  } catch (error) {
-    console.error("Loader error:", error);
-    return { data: null };
-  }
+  return { ...data.data };
 }
-
 export default async function Home() {
-  const { data } = await loader();
-  console.log(data);
+  const data = await loader();
+  const blocks = data?.blocks || [];
+  console.log("data", data);
+
   return (
     <div>
-      <h1>{data.title}</h1>
-      <h2>{data.description}</h2>
+      <HeroSection {...blocks[0]} />
     </div>
   );
 }
