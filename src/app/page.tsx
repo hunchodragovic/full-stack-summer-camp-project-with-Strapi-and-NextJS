@@ -2,7 +2,8 @@ import React from "react";
 import "../sass/main.scss";
 import { getHomePage } from "@/data/loaders";
 import { notFound } from "next/navigation";
-import { HeroSection } from "@/components/blocks/HeroSection";
+
+import { BlockRenderer } from "@/components/BlockRenderer";
 async function loader() {
   const data = await getHomePage();
   if (!data) notFound();
@@ -17,7 +18,7 @@ export default async function Home() {
 
   return (
     <div>
-      <HeroSection {...blocks[0]} />
+      <BlockRenderer blocks={blocks} />
     </div>
   );
 }
