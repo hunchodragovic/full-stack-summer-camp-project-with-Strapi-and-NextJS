@@ -32,7 +32,6 @@ export function Search() {
       <input
         type="text"
         placeholder="Search"
-        // Call handleSearch whenever input value changes
         onChange={(e) => handleSearch(e.target.value)}
         // Initialize input with existing search query from URL
         defaultValue={searchParams.get("query")?.toString()}
